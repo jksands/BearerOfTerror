@@ -18,6 +18,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "VariableApplication", "Vari
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "A05 - Octree", "A05 - Octree\A05 - Octree.vcxproj", "{44D2C07B-798D-461B-9019-DFB240593888}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "A02 - 3D Primitives", "A02 - 3D Primitives\A02 - 3D Primitives.vcxproj", "{7EDBEED8-75ED-48EE-9F13-5D4A895E8F1B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -38,6 +40,10 @@ Global
 		{44D2C07B-798D-461B-9019-DFB240593888}.Debug|x86.Build.0 = Debug|Win32
 		{44D2C07B-798D-461B-9019-DFB240593888}.Release|x86.ActiveCfg = Release|Win32
 		{44D2C07B-798D-461B-9019-DFB240593888}.Release|x86.Build.0 = Release|Win32
+		{7EDBEED8-75ED-48EE-9F13-5D4A895E8F1B}.Debug|x86.ActiveCfg = Debug|Win32
+		{7EDBEED8-75ED-48EE-9F13-5D4A895E8F1B}.Debug|x86.Build.0 = Debug|Win32
+		{7EDBEED8-75ED-48EE-9F13-5D4A895E8F1B}.Release|x86.ActiveCfg = Release|Win32
+		{7EDBEED8-75ED-48EE-9F13-5D4A895E8F1B}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -46,6 +52,7 @@ Global
 		{E745E25C-0143-42AC-A486-1395A4C972AE} = {A8C5934B-38F4-49D4-A0E2-9A8F3F2945D3}
 		{34D8E51C-8BFB-4316-8048-234C3FD966D1} = {A586CAA1-C864-488E-8301-D374FFD607C9}
 		{44D2C07B-798D-461B-9019-DFB240593888} = {EE0E027C-366F-4685-94D5-0EA5F6870B1B}
+		{7EDBEED8-75ED-48EE-9F13-5D4A895E8F1B} = {EE0E027C-366F-4685-94D5-0EA5F6870B1B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A36545A6-DAAA-4856-BDB7-57C29F88BC6B}
