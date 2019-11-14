@@ -107,6 +107,7 @@ MyOctant::MyOctant(uint a_nMaxLevel, uint a_nIdealEntityCout)
 	m_fSize = size * 2.0f;
 	m_v3Max = m_v3Center + vector3(size);
 	m_v3Min = m_v3Center - vector3(size);
+	m_v3Center.y += m_v3Max.y - m_v3Center.y - 2.0f;
 
 	//increment octant count
 	m_uOctantCount += 1;
@@ -296,14 +297,17 @@ void MyOctant::Display(uint a_nIndex, vector3 a_v3Color)
 
 void MyOctant::Display(vector3 a_v3Color)
 {
-	for (uint i = 0; i < m_uChildren; i++)
+	if (MyOctant::m_uOctantCount > 0)
 	{
-		m_pChild[i]->Display(a_v3Color);
+		for (uint i = 0; i < m_uChildren; i++)
+		{
+			m_pChild[i]->Display(a_v3Color);
+		}
+		m_pMeshMngr->AddWireCubeToRenderList(
+			glm::translate(IDENTITY_M4, m_v3Center) * glm::scale(vector3(m_fSize)),
+			a_v3Color, RENDER_WIRE
+		);
 	}
-	m_pMeshMngr->AddWireCubeToRenderList(
-		glm::translate(IDENTITY_M4, m_v3Center) * glm::scale(vector3(m_fSize)),
-		a_v3Color, RENDER_WIRE
-	);
 }
 
 void MyOctant::DisplayLeafs(vector3 a_v3Color)

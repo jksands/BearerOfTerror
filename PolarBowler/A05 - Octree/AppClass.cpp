@@ -30,7 +30,7 @@ void Application::InitVariables(void)
 		for (int j = 0; j < nSquare; j++)
 		{
 			uIndex++;
-			m_pEntityMngr->AddEntity("PB\\Bear.obj");
+			m_pEntityMngr->AddEntity("PB\\TexturedBear.obj");
 			vector3 v3Position = vector3(0.0f,0.0f, 40.0f);
 			matrix4 m4Position = glm::translate(v3Position);
 			m_pEntityMngr->SetModelMatrix(m4Position);
@@ -40,13 +40,14 @@ void Application::InitVariables(void)
 	m_v3Bear = vector3(0.0f, 0.0f, 40.0f);
 	for (int i = 0; i < uSteves; i++)
 	{
+		m_uObjects++;
 		m_pEntityMngr->AddEntity("Minecraft\\Steve.obj");
 		vector2 temp = vector2(glm::linearRand(-34,34), glm::linearRand(-34,34));
 		vector3 v3Position = vector3(temp.x, 0.0f, temp.y);
 		matrix4 m4Position = glm::translate(v3Position);
 		m_pEntityMngr->SetModelMatrix(m4Position);
 	}
-	m_uOctantLevels = 1;
+	m_uOctantLevels = 0;
 	m_pEntityMngr->Update();
 }
 void Application::Update(void)
@@ -87,7 +88,7 @@ void Application::Display(void)
 	ClearScreen();
 
 	//display octree
-	//m_pRoot->Display();
+	m_pRoot->Display();
 	
 	// draw a skybox
 	m_pMeshMngr->AddSkyboxToRenderList();
