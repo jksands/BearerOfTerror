@@ -65,6 +65,12 @@ void Application::Update(void)
 	m_pBear->SetModelMatrix(mBear);
 	m_pBearRB->SetModelMatrix(mBear);
 
+	//check for collisions -- FOR DEBUGGING
+	/*for (int i = 0; i < m_pEntityMngr->GetEntityCount(); i++)
+	{
+		m_pBearRB->IsColliding(m_pEntityMngr->GetEntity(i)->GetRigidBody());
+	}*/
+
 	//Render the bear
 	m_pBear->AddToRenderList();
 	m_pBearRB->AddToRenderList();
