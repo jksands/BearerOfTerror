@@ -296,14 +296,17 @@ void MyOctant::Display(uint a_nIndex, vector3 a_v3Color)
 
 void MyOctant::Display(vector3 a_v3Color)
 {
-	for (uint i = 0; i < m_uChildren; i++)
+	if (MyOctant::m_uOctantCount > 0)
 	{
-		m_pChild[i]->Display(a_v3Color);
+		for (uint i = 0; i < m_uChildren; i++)
+		{
+			m_pChild[i]->Display(a_v3Color);
+		}
+		m_pMeshMngr->AddWireCubeToRenderList(
+			glm::translate(IDENTITY_M4, m_v3Center) * glm::scale(vector3(m_fSize)),
+			a_v3Color, RENDER_WIRE
+		);
 	}
-	m_pMeshMngr->AddWireCubeToRenderList(
-		glm::translate(IDENTITY_M4, m_v3Center) * glm::scale(vector3(m_fSize)),
-		a_v3Color, RENDER_WIRE
-	);
 }
 
 void MyOctant::DisplayLeafs(vector3 a_v3Color)
