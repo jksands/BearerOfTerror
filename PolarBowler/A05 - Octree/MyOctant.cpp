@@ -107,6 +107,7 @@ MyOctant::MyOctant(uint a_nMaxLevel, uint a_nIdealEntityCout)
 	m_fSize = size * 2.0f;
 	m_v3Max = m_v3Center + vector3(size);
 	m_v3Min = m_v3Center - vector3(size);
+	m_v3Center.y += m_v3Max.y - m_v3Center.y - 2.0f;
 
 	//increment octant count
 	m_uOctantCount += 1;
