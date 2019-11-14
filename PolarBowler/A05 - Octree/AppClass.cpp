@@ -17,11 +17,10 @@ void Application::InitVariables(void)
 
 #ifdef DEBUG
 	uint uInstances = 1;
-	uint uSteves = 100;
+	uint uSteves = 500;
 #else
 	uint uInstances = 1849;
 #endif
-	/*
 	int nSquare = static_cast<int>(std::sqrt(uInstances));
 	m_uObjects = nSquare * nSquare;
 	uint uIndex = -1;
@@ -36,13 +35,12 @@ void Application::InitVariables(void)
 			m_pEntityMngr->SetModelMatrix(m4Position);
 		}
 	}
-	*/
 	m_v3Bear = vector3(0.0f, 0.0f, 40.0f);
 	for (int i = 0; i < uSteves; i++)
 	{
 		m_uObjects++;
 		m_pEntityMngr->AddEntity("Minecraft\\Steve.obj");
-		vector2 temp = vector2(glm::linearRand(-34,34), glm::linearRand(-34,34));
+		vector2 temp = vector2(glm::linearRand(-100,100), glm::linearRand(-100, 100));
 		vector3 v3Position = vector3(temp.x, 0.0f, temp.y);
 		matrix4 m4Position = glm::translate(v3Position);
 		m_pEntityMngr->SetModelMatrix(m4Position);
