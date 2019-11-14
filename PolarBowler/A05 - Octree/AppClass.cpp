@@ -10,12 +10,18 @@ void Application::InitVariables(void)
 
 	m_pLightMngr->SetPosition(vector3(0.0f, 3.0f, 13.0f), 1); //set the position of first light (0 is reserved for ambient light)
 
+	//bear
+	m_pBear = new Model();
+	m_pBear->Load("PB\\Bear.obj");
+	m_pBearRB = new MyRigidBody(m_pBear->GetVertexList());
+
 #ifdef DEBUG
 	uint uInstances = 1;
 	uint uSteves = 100;
 #else
 	uint uInstances = 1849;
 #endif
+	/*
 	int nSquare = static_cast<int>(std::sqrt(uInstances));
 	m_uObjects = nSquare * nSquare;
 	uint uIndex = -1;
@@ -30,9 +36,10 @@ void Application::InitVariables(void)
 			m_pEntityMngr->SetModelMatrix(m4Position);
 		}
 	}
+	*/
+	m_v3Bear = vector3(0.0f, 0.0f, 40.0f);
 	for (int i = 0; i < uSteves; i++)
 	{
-
 		m_pEntityMngr->AddEntity("Minecraft\\Steve.obj");
 		vector2 temp = vector2(glm::linearRand(-34,34), glm::linearRand(-34,34));
 		vector3 v3Position = vector3(temp.x, 0.0f, temp.y);
@@ -52,6 +59,15 @@ void Application::Update(void)
 
 	//Is the first person camera active?
 	CameraRotation();
+
+	//Set model matrix to the bear
+	matrix4 mBear = glm::translate(m_v3Bear) * ToMatrix4(m_qBear) * ToMatrix4(m_qArcBall);
+	m_pBear->SetModelMatrix(mBear);
+	m_pBearRB->SetModelMatrix(mBear);
+
+	//Render the bear
+	m_pBear->AddToRenderList();
+	m_pBearRB->AddToRenderList();
 	
 	//Update Entity Manager
 	m_pEntityMngr->Update();
@@ -84,6 +100,9 @@ void Application::Display(void)
 }
 void Application::Release(void)
 {
+	SafeDelete(m_pBear);
+	SafeDelete(m_pBearRB);
+
 	//release GUI
 	ShutdownGUI();
 }

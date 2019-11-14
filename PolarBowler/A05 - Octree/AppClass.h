@@ -17,6 +17,11 @@ namespace Simplex
 	//Adding Application to the Simplex namespace
 class Application
 {
+	Model* m_pBear = nullptr;//the bear
+	MyRigidBody* m_pBearRB = nullptr;//bear's RigidBody
+	vector3 m_v3Bear;//the bear's position
+	quaternion m_qBear;//the bear's rotation
+
 	MyEntityManager* m_pEntityMngr = nullptr; //Entity Manager
 	uint m_uOctantID = -1; //Index of Octant to display
 	uint m_uObjects = 0; //Number of objects in the scene
