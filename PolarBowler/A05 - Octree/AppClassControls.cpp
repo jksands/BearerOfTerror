@@ -434,7 +434,55 @@ void Application::ProcessKeyboard(void)
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::E))
 		m_pCameraMngr->MoveVertical(m_fMovementSpeed * fMultiplier);
 #pragma endregion
+	//move the bear
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+		m_v3Bear.x -= 0.1f;
 
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+		m_v3Bear.x += 0.1f;
+
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
+	{
+		if (m_bModifier)
+			m_v3Bear.z -= 0.1f;
+		else
+			m_v3Bear.y += 0.1f;
+	}
+
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
+	{
+		if (m_bModifier)
+			m_v3Bear.z += 0.1f;
+		else
+			m_v3Bear.y -= 0.1f;
+	}
+
+	//Orient the bear
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::X))
+	{
+		if (m_bModifier)
+			m_qBear = m_qBear * glm::angleAxis(glm::radians(1.0f), AXIS_X);
+		else
+			m_qBear = m_qBear * glm::angleAxis(glm::radians(-1.0f), AXIS_X);
+	}
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Y))
+	{
+		if (m_bModifier)
+			m_qBear = m_qBear * glm::angleAxis(glm::radians(1.0f), AXIS_Y);
+		else
+			m_qBear = m_qBear * glm::angleAxis(glm::radians(-1.0f), AXIS_Y);
+	}
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Z))
+	{
+		if (m_bModifier)
+			m_qBear = m_qBear * glm::angleAxis(glm::radians(1.0f), AXIS_Z);
+		else
+			m_qBear = m_qBear * glm::angleAxis(glm::radians(-1.0f), AXIS_Z);
+	}
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::R))
+	{
+		m_qBear = quaternion();
+	}
 }
 //Joystick
 void Application::ProcessJoystick(void)

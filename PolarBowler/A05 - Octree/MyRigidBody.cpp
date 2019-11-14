@@ -277,59 +277,133 @@ void MyRigidBody::ClearCollidingList(void)
 }
 uint MyRigidBody::SAT(MyRigidBody* const a_pOther)
 {
-	/*
-	Your code goes here instead of this comment;
+	float ra, rb;
+	matrix3 R, absR;
 
-	For this method, if there is an axis that separates the two objects
-	then the return will be different than 0; 1 for any separating axis
-	is ok if you are not going for the extra credit, if you could not
-	find a separating axis you need to return 0, there is an enum in
-	Simplex that might help you [eSATResults] feel free to use it.
-	(eSATResults::SAT_NONE has a value of 0)
-	*/
+	vector3 aAxes[] = {
+		glm::normalize(vector3(m_m4ToWorld * vector4(AXIS_X, 0.0f))),
+		glm::normalize(vector3(m_m4ToWorld * vector4(AXIS_Y, 0.0f))),
+		glm::normalize(vector3(m_m4ToWorld * vector4(AXIS_Z, 0.0f)))
+	};
+	vector3 bAxes[] = {
+		glm::normalize(vector3(a_pOther->m_m4ToWorld * vector4(AXIS_X, 0.0f))),
+		glm::normalize(vector3(a_pOther->m_m4ToWorld * vector4(AXIS_Y, 0.0f))),
+		glm::normalize(vector3(a_pOther->m_m4ToWorld * vector4(AXIS_Z, 0.0f)))
+	};
 
-	//there is no axis test that separates this two objects
+	// Compute rotation matrix expressing b in a’s coordinate frame
+	for (int i = 0; i < 3; i++)
+	{
+		for (int j = 0; j < 3; j++)
+		{
+			R[i][j] = glm::dot(aAxes[i], bAxes[j]);
+		}
+	}
+
+	// Compute translation vector t
+	vector3 t = a_pOther->GetCenterGlobal() - GetCenterGlobal();
+
+	// Bring translation into a’s coordinate frame
+	t = vector3(glm::dot(t, aAxes[0]), glm::dot(t, aAxes[1]), glm::dot(t, aAxes[2]));
+
+	// Compute common subexpressions. Add in an epsilon term to
+	// counteract arithmetic errors when two edges are parallel and
+	// their cross product is (near) null (see text for details)
+	for (int i = 0; i < 3; i++)
+	{
+		for (int j = 0; j < 3; j++)
+		{
+			absR[i][j] = abs(R[i][j]) + FLT_EPSILON;
+		}
+	}
+
+	// Test axes L = A0, L = A1, L = A2
+	for (int i = 0; i < 3; i++)
+	{
+		ra = GetHalfWidth()[i];
+		rb = a_pOther->GetHalfWidth()[0] * absR[i][0] + a_pOther->GetHalfWidth()[1] * absR[i][1] + a_pOther->GetHalfWidth()[2] * absR[i][2];
+		if (abs(t[i]) > ra + rb) return 1;
+	}
+
+	// Test axes L = B0, L = B1, L = B2
+	for (int i = 0; i < 3; i++)
+	{
+		ra = GetHalfWidth()[0] * absR[0][i] + GetHalfWidth()[1] * absR[1][i] + GetHalfWidth()[2] * absR[2][i];
+		rb = a_pOther->GetHalfWidth()[i];
+		if (abs(t[0] * R[0][i] + t[1] * R[1][i] + t[2] * R[2][i]) > ra + rb) return 1;
+	}
+
+	// Test axis L = A0 x B0
+	ra = GetHalfWidth()[1] * absR[2][0] + GetHalfWidth()[2] * absR[1][0];
+	rb = a_pOther->GetHalfWidth()[1] * absR[0][2] + a_pOther->GetHalfWidth()[2] * absR[0][1];
+	if (abs(t[2] * R[1][0] - t[1] * R[2][0]) > ra + rb) return 1;
+
+	// Test axis L = A0 x B1
+	ra = GetHalfWidth()[1] * absR[2][1] + GetHalfWidth()[2] * absR[1][1];
+	rb = a_pOther->GetHalfWidth()[0] * absR[0][2] + a_pOther->GetHalfWidth()[2] * absR[0][0];
+	if (abs(t[2] * R[1][1] - t[1] * R[2][1]) > ra + rb) return 1;
+
+	// Test axis L = A0 x B2
+	ra = GetHalfWidth()[1] * absR[2][2] + GetHalfWidth()[2] * absR[1][2];
+	rb = a_pOther->GetHalfWidth()[0] * absR[0][1] + a_pOther->GetHalfWidth()[1] * absR[0][0];
+	if (abs(t[2] * R[1][2] - t[1] * R[2][2]) > ra + rb) return 1;
+
+	// Test axis L = A1 x B0
+	ra = GetHalfWidth()[0] * absR[2][0] + GetHalfWidth()[2] * absR[0][0];
+	rb = a_pOther->GetHalfWidth()[1] * absR[1][2] + a_pOther->GetHalfWidth()[2] * absR[1][1];
+	if (abs(t[0] * R[2][0] - t[2] * R[0][0]) > ra + rb) return 1;
+
+	// Test axis L = A1 x B1
+	ra = GetHalfWidth()[0] * absR[2][1] + GetHalfWidth()[2] * absR[0][1];
+	rb = a_pOther->GetHalfWidth()[0] * absR[1][2] + a_pOther->GetHalfWidth()[2] * absR[1][0];
+	if (abs(t[0] * R[2][1] - t[2] * R[0][1]) > ra + rb) return 1;
+
+	// Test axis L = A1 x B2
+	ra = GetHalfWidth()[0] * absR[2][2] + GetHalfWidth()[2] * absR[0][2];
+	rb = a_pOther->GetHalfWidth()[0] * absR[1][1] + a_pOther->GetHalfWidth()[1] * absR[1][0];
+	if (abs(t[0] * R[2][2] - t[2] * R[0][2]) > ra + rb) return 1;
+
+	// Test axis L = A2 x B0
+	ra = GetHalfWidth()[0] * absR[1][0] + GetHalfWidth()[1] * absR[0][0];
+	rb = a_pOther->GetHalfWidth()[1] * absR[2][2] + a_pOther->GetHalfWidth()[2] * absR[2][1];
+	if (abs(t[1] * R[0][0] - t[0] * R[1][0]) > ra + rb) return 1;
+
+	// Test axis L = A2 x B1
+	ra = GetHalfWidth()[0] * absR[1][1] + GetHalfWidth()[1] * absR[0][1];
+	rb = a_pOther->GetHalfWidth()[0] * absR[2][2] + a_pOther->GetHalfWidth()[2] * absR[2][0];
+	if (abs(t[1] * R[0][1] - t[0] * R[1][1]) > ra + rb) return 1;
+
+	// Test axis L = A2 x B2
+	ra = GetHalfWidth()[0] * absR[1][2] + GetHalfWidth()[1] * absR[0][2];
+	rb = a_pOther->GetHalfWidth()[0] * absR[2][1] + a_pOther->GetHalfWidth()[1] * absR[2][0];
+	if (abs(t[1] * R[0][2] - t[0] * R[1][2]) > ra + rb) return 1;
+
+	// Since no separating axis is found, the OBBs must be intersecting
 	return 0;
 }
 bool MyRigidBody::IsColliding(MyRigidBody* const a_pOther)
 {
-	//check if spheres are colliding
-	bool bColliding = true;
-	//bColliding = (glm::distance(GetCenterGlobal(), other->GetCenterGlobal()) < m_fRadius + other->m_fRadius);
-	//if they are check the Axis Aligned Bounding Box
-	if (bColliding) //they are colliding with bounding sphere
+	//check if spheres are colliding as pre-test
+	bool bColliding = (glm::distance(GetCenterGlobal(), a_pOther->GetCenterGlobal()) < m_fRadius + a_pOther->m_fRadius);
+
+	//if they are colliding check the SAT
+	if (bColliding)
 	{
-		if (this->m_v3MaxG.x < a_pOther->m_v3MinG.x) //this to the right of other
-			bColliding = false;
-		if (this->m_v3MinG.x > a_pOther->m_v3MaxG.x) //this to the left of other
-			bColliding = false;
-
-		if (this->m_v3MaxG.y < a_pOther->m_v3MinG.y) //this below of other
-			bColliding = false;
-		if (this->m_v3MinG.y > a_pOther->m_v3MaxG.y) //this above of other
-			bColliding = false;
-
-		if (this->m_v3MaxG.z < a_pOther->m_v3MinG.z) //this behind of other
-			bColliding = false;
-		if (this->m_v3MinG.z > a_pOther->m_v3MaxG.z) //this in front of other
-			bColliding = false;
-
-		if (bColliding) //they are colliding with bounding box also
-		{
-			this->AddCollisionWith(a_pOther);
-			a_pOther->AddCollisionWith(this);
-		}
-		else //they are not colliding with bounding box
-		{
-			this->RemoveCollisionWith(a_pOther);
-			a_pOther->RemoveCollisionWith(this);
-		}
+		if (SAT(a_pOther) != 0)
+			bColliding = false;// reset to false
 	}
-	else //they are not colliding with bounding sphere
+
+	if (bColliding) //they are colliding
+	{
+		this->AddCollisionWith(a_pOther);
+		a_pOther->AddCollisionWith(this);
+	}
+	else //they are not colliding
 	{
 		this->RemoveCollisionWith(a_pOther);
 		a_pOther->RemoveCollisionWith(this);
 	}
+
 	return bColliding;
 }
 
