@@ -39,6 +39,8 @@ void Application::InitVariables(void)
 		matrix4 m4Position = glm::translate(v3Position);
 		m_pEntityMngr->SetModelMatrix(m4Position);
 	}
+
+
 	m_uOctantLevels = 1;
 	m_pEntityMngr->Update();
 }
@@ -66,6 +68,14 @@ void Application::Display(void)
 
 	//display octree
 	//m_pRoot->Display();
+
+	// cubes for the rooms
+
+	// m_pMeshMngr->AddCubeToRenderList(IDENTITY_M4, glm::rgbColor(vector3(255, 0, 0))); // floor
+	m_pMeshMngr->AddPlaneToRenderList(glm::scale(glm::translate(IDENTITY_M4, vector3(0.0f, 0.0f, -35.0f)), vector3(70.0f, 25.0f, 0.0f)), vector3(255.0f, 0.0f, 0.0f));// back wall
+	m_pMeshMngr->AddPlaneToRenderList(glm::rotate(glm::scale(glm::translate(IDENTITY_M4, vector3(0.0f, 0.0f, -35.0f)), vector3(70.0f, 25.0f, 0.0f)), 45.0f, AXIS_Y), vector3(255.0f, 0.0f, 0.0f));// left wall
+	// m_pMeshMngr->AddCubeToRenderList(); // right wall
+	// m_pMeshMngr->AddCubeToRenderList(); // front wall
 	
 	// draw a skybox
 	m_pMeshMngr->AddSkyboxToRenderList();

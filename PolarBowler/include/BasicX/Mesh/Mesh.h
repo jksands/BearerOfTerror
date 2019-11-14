@@ -524,6 +524,15 @@ public:
 	*/
 	void GenerateCube(float a_fSize, vector3 a_v3Color = C_WHITE);
 	/*
+	USAGE: Generates an inside out cube
+	ARGUMENTS:
+		float a_fSize -> Size of each side
+		vector3 a_v3Color -> Color of the mesh
+	OUTPUT: ---
+	*/
+	void Mesh::GenerateInverseCube(float a_fSize, vector3 a_v3Color);
+
+	/*
 	USAGE: Generates a cuboid
 	ARGUMENTS:
 		vector3 a_v3Dimensions -> Dimensions of each side of the cuboid

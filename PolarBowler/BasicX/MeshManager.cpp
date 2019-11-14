@@ -108,6 +108,14 @@ int MeshManager::GenerateCube(float a_fSize, vector3 a_v3Color)
 	pMesh->SetShaderProgram("BasicColor");
 	return AddMesh(pMesh);
 }
+int MeshManager::GenerateInverseCube(float a_fSize, vector3 a_v3Color)
+{
+	Mesh* pMesh = new Mesh();
+	pMesh->GenerateInverseCube(a_fSize, a_v3Color);
+	pMesh->SetShaderProgram("BasicColor");
+	return AddMesh(pMesh);
+}
+
 int MeshManager::GenerateCuboid(vector3 a_v3Dimensions, vector3 a_v3Color)
 {
 	Mesh* pMesh = new Mesh();

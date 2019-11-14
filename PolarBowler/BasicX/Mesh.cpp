@@ -590,6 +590,62 @@ void Mesh::GenerateCube(float a_fSize, vector3 a_v3Color)
 		"," + std::to_string(a_v3Color.z) + ")";
 	SetShaderProgram("BasicColor");
 }
+
+
+void Mesh::GenerateInverseCube(float a_fSize, vector3 a_v3Color)
+{
+	if (a_fSize < 0.01f)
+		a_fSize = 0.01f;
+
+	Release();
+	Init();
+
+	float fValue = 0.5f * a_fSize;
+	//3--2
+	//|  |
+	//0--1
+	vector3 point0(-fValue, -fValue, fValue); //0
+	vector3 point1(fValue, -fValue, fValue); //1
+	vector3 point2(fValue, fValue, fValue); //2
+	vector3 point3(-fValue, fValue, fValue); //3
+
+	vector3 point4(-fValue, -fValue, -fValue); //4
+	vector3 point5(fValue, -fValue, -fValue); //5
+	vector3 point6(fValue, fValue, -fValue); //6
+	vector3 point7(-fValue, fValue, -fValue); //7
+
+											  //F
+	//AddQuad(point0, point1, point3, point2);
+	AddQuad(point2, point3, point1, point0);
+
+	//B
+	//AddQuad(point5, point4, point6, point7);
+	AddQuad(point7, point6, point4, point5);
+
+	//L
+	//AddQuad(point4, point0, point7, point3);
+	AddQuad(point3, point7, point0, point4);
+
+	//R
+	// AddQuad(point1, point5, point2, point6);
+	AddQuad(point6, point2, point5, point1);
+
+	//U
+	// AddQuad(point3, point2, point7, point6);
+	AddQuad(point6, point7, point2, point3);
+
+	//D
+	//AddQuad(point4, point5, point0, point1);
+	AddQuad(point1, point0, point5, point4);
+
+	CompleteMesh(a_v3Color);
+	CompileOpenGL3X();
+	m_sName = "cube_(" + std::to_string(a_v3Color.x) +
+		"," + std::to_string(a_v3Color.y) +
+		"," + std::to_string(a_v3Color.z) + ")";
+	SetShaderProgram("BasicColor");
+}
+
 void Mesh::GenerateCuboid(vector3 a_v3Dimensions, vector3 a_v3Color)
 {
 	//Code removed for assignment purposes

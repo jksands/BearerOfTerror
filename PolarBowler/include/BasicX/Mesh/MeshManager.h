@@ -88,6 +88,9 @@ namespace BasicX
 		OUTPUT: name of the generated Mesh
 		*/
 		int GenerateCube(float a_fSize, vector3 a_v3Color = C_WHITE);
+
+		int GenerateInverseCube(float a_fSize, vector3 a_v3Color);
+
 		/*
 		USAGE: Generates a cuboid
 		ARGUMENTS:
