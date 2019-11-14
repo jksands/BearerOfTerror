@@ -32,14 +32,14 @@ void Application::InitVariables(void)
 	}
 	for (int i = 0; i < uSteves; i++)
 	{
-
+		m_uObjects++;
 		m_pEntityMngr->AddEntity("Minecraft\\Steve.obj");
 		vector2 temp = vector2(glm::linearRand(-34,34), glm::linearRand(-34,34));
 		vector3 v3Position = vector3(temp.x, 0.0f, temp.y);
 		matrix4 m4Position = glm::translate(v3Position);
 		m_pEntityMngr->SetModelMatrix(m4Position);
 	}
-	m_uOctantLevels = 1;
+	m_uOctantLevels = 0;
 	m_pEntityMngr->Update();
 }
 void Application::Update(void)
@@ -65,7 +65,7 @@ void Application::Display(void)
 	ClearScreen();
 
 	//display octree
-	//m_pRoot->Display();
+	m_pRoot->Display();
 	
 	// draw a skybox
 	m_pMeshMngr->AddSkyboxToRenderList();
