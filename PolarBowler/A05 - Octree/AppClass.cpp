@@ -10,9 +10,14 @@ void Application::InitVariables(void)
 
 	m_pLightMngr->SetPosition(vector3(0.0f, 3.0f, 13.0f), 1); //set the position of first light (0 is reserved for ambient light)
 
+	//bear
+	m_pBear = new Model();
+	m_pBear->Load("PB\\Bear.obj");
+	m_pBearRB = new MyRigidBody(m_pBear->GetVertexList());
+
 #ifdef DEBUG
 	uint uInstances = 1;
-	uint uSteves = 100;
+	uint uSteves = 500;
 #else
 	uint uInstances = 1849;
 #endif
@@ -24,24 +29,23 @@ void Application::InitVariables(void)
 		for (int j = 0; j < nSquare; j++)
 		{
 			uIndex++;
-			m_pEntityMngr->AddEntity("PB\\Bear.obj");
+			m_pEntityMngr->AddEntity("PB\\TexturedBear.obj");
 			vector3 v3Position = vector3(0.0f,0.0f, 40.0f);
 			matrix4 m4Position = glm::translate(v3Position);
 			m_pEntityMngr->SetModelMatrix(m4Position);
 		}
 	}
+	m_v3Bear = vector3(0.0f, 0.0f, 40.0f);
 	for (int i = 0; i < uSteves; i++)
 	{
-
+		m_uObjects++;
 		m_pEntityMngr->AddEntity("Minecraft\\Steve.obj");
-		vector2 temp = vector2(glm::linearRand(-34,34), glm::linearRand(-34,34));
+		vector2 temp = vector2(glm::linearRand(-100,100), glm::linearRand(-100, 100));
 		vector3 v3Position = vector3(temp.x, 0.0f, temp.y);
 		matrix4 m4Position = glm::translate(v3Position);
 		m_pEntityMngr->SetModelMatrix(m4Position);
 	}
-
-
-	m_uOctantLevels = 1;
+	m_uOctantLevels = 0;
 	m_pEntityMngr->Update();
 }
 void Application::Update(void)
@@ -54,6 +58,21 @@ void Application::Update(void)
 
 	//Is the first person camera active?
 	CameraRotation();
+
+	//Set model matrix to the bear
+	matrix4 mBear = glm::translate(m_v3Bear) * ToMatrix4(m_qBear) * ToMatrix4(m_qArcBall);
+	m_pBear->SetModelMatrix(mBear);
+	m_pBearRB->SetModelMatrix(mBear);
+
+	//check for collisions -- FOR DEBUGGING
+	/*for (int i = 0; i < m_pEntityMngr->GetEntityCount(); i++)
+	{
+		m_pBearRB->IsColliding(m_pEntityMngr->GetEntity(i)->GetRigidBody());
+	}*/
+
+	//Render the bear
+	m_pBear->AddToRenderList();
+	m_pBearRB->AddToRenderList();
 	
 	//Update Entity Manager
 	m_pEntityMngr->Update();
@@ -77,6 +96,7 @@ void Application::Display(void)
 	m_pMeshMngr->AddPlaneToRenderList(glm::scale(glm::translate(glm::rotate(IDENTITY_M4, (float)(PI/2.0f), AXIS_Y), vector3(-5.0f, 0.0f, -40.0f)), vector3(90.0f, 25.0f, 0.0f)), vector3(0.0f, 255.0f, 0.0f)); // left wall
 	m_pMeshMngr->AddPlaneToRenderList(glm::scale(glm::translate(glm::rotate(IDENTITY_M4, (float)(-PI / 2.0f), AXIS_Y), vector3(5.0f, 0.0f, -40.0f)), vector3(90.0f, 25.0f, 0.0f)), vector3(0.0f, 0.0f, 255.0f)); // right wall
 	m_pMeshMngr->AddPlaneToRenderList(glm::scale(glm::rotate(IDENTITY_M4, (float)(-PI / 2.0f), AXIS_X), vector3(90.0f, 100.0f, 0.0f)), vector3(0.0f, 0.0f, 0.0f)); // floor
+	m_pRoot->Display();
 	
 	// draw a skybox
 	m_pMeshMngr->AddSkyboxToRenderList();
@@ -95,6 +115,9 @@ void Application::Display(void)
 }
 void Application::Release(void)
 {
+	SafeDelete(m_pBear);
+	SafeDelete(m_pBearRB);
+
 	//release GUI
 	ShutdownGUI();
 }

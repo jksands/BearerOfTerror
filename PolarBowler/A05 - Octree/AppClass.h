@@ -11,12 +11,18 @@ Date: 2017/06
 #include "imgui\ImGuiObject.h"
 
 #include "MyEntityManager.h"
+#include "MyOctant.h"
 
 namespace Simplex
 {
 	//Adding Application to the Simplex namespace
 class Application
 {
+	Model* m_pBear = nullptr;//the bear
+	MyRigidBody* m_pBearRB = nullptr;//bear's RigidBody
+	vector3 m_v3Bear;//the bear's position
+	quaternion m_qBear;//the bear's rotation
+
 	MyEntityManager* m_pEntityMngr = nullptr; //Entity Manager
 	uint m_uOctantID = -1; //Index of Octant to display
 	uint m_uObjects = 0; //Number of objects in the scene
@@ -58,6 +64,8 @@ private:
 	sf::SoundBuffer m_soundBuffer; //buffer to play sound from
 	sf::Sound m_sound; //sound effect
 	sf::Music m_soundBGM; //background music
+
+	MyOctant* m_pRoot;
 
 public:
 #pragma region Constructor / Run / Destructor
