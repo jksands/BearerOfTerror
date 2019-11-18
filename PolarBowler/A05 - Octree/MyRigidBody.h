@@ -13,7 +13,10 @@ namespace Simplex
 //System Class
 class MyRigidBody
 {
+public:
 	typedef MyRigidBody* PRigidBody; //Entity Pointer
+
+protected:
 	MeshManager* m_pMeshMngr = nullptr; //for displaying the Rigid Body
 
 	bool m_bVisibleBS = false; //Visibility of bounding sphere
@@ -229,6 +232,18 @@ public:
 	Output: ---
 	*/
 	void SetModelMatrix(matrix4 a_m4ModelMatrix);
+	/*
+	USAGE: Gets the array of rigid bodies pointer this one is colliding with
+	ARGUMENTS: ---
+	OUTPUT: list of colliding rigid bodies
+	*/
+	PRigidBody* GetColliderArray(void);
+	/*
+	USAGE: Returns the number of objects colliding with this one
+	ARGUMENTS: ---
+	OUTPUT: colliding count
+	*/
+	uint GetCollidingCount(void);
 #pragma endregion
 	/*
 	USAGE: Checks if the input is in the colliding array
