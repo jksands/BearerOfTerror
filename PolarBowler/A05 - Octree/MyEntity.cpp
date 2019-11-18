@@ -118,6 +118,8 @@ Simplex::MyEntity::MyEntity(String a_sFileName, String a_sUniqueID)
 		m_bInMemory = true; //mark this entity as viable
 	}
 	m_pSolver = new MySolver();
+	m_pSolver->SetID(m_sUniqueID);
+
 }
 Simplex::MyEntity::MyEntity(MyEntity const& other)
 {

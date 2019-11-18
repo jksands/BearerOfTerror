@@ -193,6 +193,12 @@ namespace Simplex
 		void AssignIDtoEntity(void);
 
 		/*
+		Usage: takes an entity inside of a octant and reassign the entity to another
+		Arguments: entity id
+		output ---
+		*/
+		void ReassignIDtoEntity(String sID);
+		/*
 		USAGE: Gets the total number of octants in the world
 		ARGUMENTS: ---
 		OUTPUT: ---

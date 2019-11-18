@@ -6,6 +6,7 @@ Date: 2017/07
 #define __MYSOLVER_H_
 
 #include "MyRigidBody.h"
+// #include "AppClass.h"
 
 namespace Simplex
 {
@@ -17,6 +18,9 @@ namespace Simplex
 		vector3 m_v3Size = vector3(1.0f); //Size of the MySolver
 		vector3 m_v3Velocity = ZERO_V3; //Velocity of the MySolver
 		float m_fMass = 1.0f; //Mass of the solver
+
+		String ID = "";
+		
 	public:
 		/*
 		USAGE: Constructor
@@ -125,6 +129,13 @@ namespace Simplex
 		OUTPUT: ---
 		*/
 		void ResolveCollision(MySolver* a_pOther);
+
+		void SetID(String temp);
+		// uint GetID();
+		/*
+		Gets ID from RigidBody
+		*/
+		String GetIDFromRigid();
 	private:
 		/*
 		Usage: Deallocates member fields

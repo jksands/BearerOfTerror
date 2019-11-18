@@ -1,4 +1,6 @@
 #include "MySolver.h"
+#include "AppClass.h"
+#include "MyEntityManager.h"
 using namespace Simplex;
 //  MySolver
 void MySolver::Init(void)
@@ -114,6 +116,19 @@ void MySolver::ResolveCollision(MySolver* a_pOther)
 {
 	float fMagThis = glm::length(m_v3Velocity);
 	float fMagOther = glm::length(m_v3Velocity);
+	
+	if (std::find(Application::collided.begin(), Application::collided.end(), this) != Application::collided.end())
+	{}
+	else
+	{
+		Application::collided.push_back(this);
+	}
+	if (std::find(Application::collided.begin(), Application::collided.end(), a_pOther) != Application::collided.end())
+	{}
+	else
+	{
+		Application::collided.push_back(a_pOther);
+	}
 
 	if (fMagThis > 0.015f || fMagOther > 0.015f)
 	{
@@ -130,4 +145,15 @@ void MySolver::ResolveCollision(MySolver* a_pOther)
 		ApplyForce(v3Direction);
 		a_pOther->ApplyForce(-v3Direction);
 	}
+}
+
+void MySolver::SetID(String temp)
+{
+	ID = temp;
+}
+
+
+String MySolver::GetIDFromRigid()
+{
+	return ID;
 }

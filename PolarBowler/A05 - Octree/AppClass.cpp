@@ -1,5 +1,6 @@
 #include "AppClass.h"
 using namespace Simplex;
+std::vector<MySolver*> Application::collided;
 void Application::InitVariables(void)
 {
 	//Set the position and target of the camera
@@ -16,6 +17,7 @@ void Application::InitVariables(void)
 	//m_pBearRB = new MyRigidBody(m_pBear->GetVertexList());
 
 	m_pEntityMngr->AddEntity("PB\\TexturedBear.obj", "Bear");
+	
 	m_pEntityMngr->UsePhysicsSolver();
 
 #ifdef DEBUG
@@ -66,6 +68,41 @@ void Application::Update(void)
 	//Is the first person camera active?
 	CameraRotation();
 
+	//for each element in our collided box, reassign their id, and remove from the list if they are no longer moving
+	// std::vector<uint> toRemove;
+	counter++;
+	for (uint i = 0; i < collided.size(); i++)
+	{
+		// if (collided[i]->GetVelocity() == vector3(0))
+		// {
+		// 	for (int j = i; j < collided.size()- 1; j++)
+		// 	{
+		// 		if (j == collided.size() - 2)
+		// 			continue;
+		// 		// collided[j] = collided[j + 1];
+		// 	}
+		// 	// i--;
+		// 	// collided.pop_back();
+		// 	// toRemove.push_back(i);
+		// }
+		if (collided.size() > 0)
+		{
+			//m_pRoot->ReassignIDtoEntity(collided[i]->GetIDFromRigid());
+		}
+	}
+	m_pRoot->AssignIDtoEntity();
+	if (counter > 120)
+	{
+		collided.clear();
+		MyEntity* temp = m_pEntityMngr->GetEntity(m_pEntityMngr->GetEntityIndex("Bear"));
+		collided.push_back((*temp).GetSolver());
+		counter = 0;
+	}
+	// for (uint i = 0; i < toRemove.size(); i++)
+	// {
+	// 	collided.erase(collided.begin() + toRemove[i]);
+	// }
+	
 	//Set model matrix to the bear
 	//matrix4 mBear = glm::translate(m_v3Bear) * ToMatrix4(m_qBear) * ToMatrix4(m_qArcBall);
 	//m_pBear->SetModelMatrix(mBear);

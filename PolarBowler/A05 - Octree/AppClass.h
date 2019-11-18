@@ -12,6 +12,7 @@ Date: 2017/06
 
 #include "MyEntityManager.h"
 #include "MyOctant.h"
+#include "MySolver.h"
 
 namespace Simplex
 {
@@ -27,6 +28,7 @@ class Application
 	uint m_uOctantID = -1; //Index of Octant to display
 	uint m_uObjects = 0; //Number of objects in the scene
 	uint m_uOctantLevels = 0; //Number of levels in the octree
+	
 private:
 	String m_sProgrammer = "Alberto Bobadilla - labigm@rit.edu"; //programmer
 
@@ -77,10 +79,13 @@ private:
 	vector2 vec2;
 	vector2 sum;
 
+	uint counter = 0;
+
 
 
 public:
 #pragma region Constructor / Run / Destructor
+	static std::vector<MySolver*> collided;
 	/*
 	USAGE: Constructor
 	ARGUMENTS: ---

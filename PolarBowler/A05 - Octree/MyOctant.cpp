@@ -495,24 +495,56 @@ void MyOctant::ConstructTree(uint a_nMaxLevel)
 
 void MyOctant::AssignIDtoEntity(void)
 {
-	//only assign ids to leaves, not higher branches
-	for (uint i = 0; i < m_uChildren; i++)
+	if (MyOctant::m_uOctantCount > 0)
 	{
-		m_pChild[i]->AssignIDtoEntity();
-	}
-
-	if (IsLeaf())
-	{
-		uint entityCount = m_pEntityMngr->GetEntityCount();
-		for (uint i = 0; i < entityCount; i++)
+		//only assign ids to leaves, not higher branches
+		for (uint i = 0; i < m_uChildren; i++)
 		{
-			if (IsColliding(i))
+			m_pChild[i]->AssignIDtoEntity();
+		}
+
+		if (IsLeaf())
+		{
+			uint entityCount = m_pEntityMngr->GetEntityCount();
+			for (uint i = 0; i < entityCount; i++)
+			{
+				if (IsColliding(i))
+				{
+					//add the entity to the list of entities in the octant
+					m_EntityList.push_back(i);
+
+					m_pEntityMngr->AddDimension(i, m_uID);
+
+				}
+			}
+		}
+	}
+}
+//reassign id to entity
+void MyOctant::ReassignIDtoEntity(String sID)
+{
+
+	if (MyOctant::m_uOctantCount > 0)
+	{
+		for (uint i = 0; i < m_uChildren; i++)
+		{
+			m_pChild[i]->ReassignIDtoEntity(sID);
+		}
+
+		uint index = m_pEntityMngr->GetEntityIndex(sID);
+		if (IsLeaf())
+		{
+			m_pEntityMngr->ClearDimensionSet(index);
+
+			if (IsColliding(index))
 			{
 				//add the entity to the list of entities in the octant
-				m_EntityList.push_back(i);
+				m_EntityList.push_back(index);
 
-				m_pEntityMngr->AddDimension(i, m_uID);
+				m_pEntityMngr->AddDimension(index, m_uID);
+
 			}
+
 		}
 	}
 }
