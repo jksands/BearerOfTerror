@@ -11,9 +11,12 @@ void Application::InitVariables(void)
 	m_pLightMngr->SetPosition(vector3(0.0f, 3.0f, 13.0f), 1); //set the position of first light (0 is reserved for ambient light)
 
 	//bear
-	m_pBear = new Model();
-	m_pBear->Load("PB\\Bear.obj");
-	m_pBearRB = new MyRigidBody(m_pBear->GetVertexList());
+	//m_pBear = new Model();
+	//m_pBear->Load("PB\\TexturedBear.obj");
+	//m_pBearRB = new MyRigidBody(m_pBear->GetVertexList());
+
+	m_pEntityMngr->AddEntity("PB\\TexturedBear.obj", "Bear");
+	m_pEntityMngr->UsePhysicsSolver();
 
 #ifdef DEBUG
 	uint uInstances = 1;
@@ -21,6 +24,7 @@ void Application::InitVariables(void)
 #else
 	uint uInstances = 1849;
 #endif
+	/*
 	int nSquare = static_cast<int>(std::sqrt(uInstances));
 	m_uObjects = nSquare * nSquare;
 	uint uIndex = -1;
@@ -34,7 +38,7 @@ void Application::InitVariables(void)
 			matrix4 m4Position = glm::translate(v3Position);
 			m_pEntityMngr->SetModelMatrix(m4Position);
 		}
-	}
+	}*/
 	m_v3Bear = vector3(0.0f, 0.0f, 40.0f);
 	for (int i = 0; i < uSteves; i++)
 	{
@@ -44,6 +48,7 @@ void Application::InitVariables(void)
 		vector3 v3Position = vector3(temp.x, 0.0f, temp.y);
 		matrix4 m4Position = glm::translate(v3Position);
 		m_pEntityMngr->SetModelMatrix(m4Position);
+		m_pEntityMngr->UsePhysicsSolver();
 	}
 	m_uOctantLevels = 0;
 	m_pEntityMngr->Update();
@@ -60,19 +65,19 @@ void Application::Update(void)
 	CameraRotation();
 
 	//Set model matrix to the bear
-	matrix4 mBear = glm::translate(m_v3Bear) * ToMatrix4(m_qBear) * ToMatrix4(m_qArcBall);
-	m_pBear->SetModelMatrix(mBear);
-	m_pBearRB->SetModelMatrix(mBear);
+	//matrix4 mBear = glm::translate(m_v3Bear) * ToMatrix4(m_qBear) * ToMatrix4(m_qArcBall);
+	//m_pBear->SetModelMatrix(mBear);
+	//m_pBearRB->SetModelMatrix(mBear);
 
 	//check for collisions -- FOR DEBUGGING
-	/*for (int i = 0; i < m_pEntityMngr->GetEntityCount(); i++)
-	{
-		m_pBearRB->IsColliding(m_pEntityMngr->GetEntity(i)->GetRigidBody());
-	}*/
+	//for (int i = 0; i < m_pEntityMngr->GetEntityCount(); i++)
+	//{
+	//	m_pBearRB->IsColliding(m_pEntityMngr->GetEntity(i)->GetRigidBody());
+	//}
 
 	//Render the bear
-	m_pBear->AddToRenderList();
-	m_pBearRB->AddToRenderList();
+	//m_pBear->AddToRenderList();
+	//m_pBearRB->AddToRenderList();
 	
 	//Update Entity Manager
 	m_pEntityMngr->Update();
@@ -105,8 +110,10 @@ void Application::Display(void)
 }
 void Application::Release(void)
 {
-	SafeDelete(m_pBear);
-	SafeDelete(m_pBearRB);
+	//Release MyEntityManager
+	MyEntityManager::ReleaseInstance();
+	//SafeDelete(m_pBear);
+	//SafeDelete(m_pBearRB);
 
 	//release GUI
 	ShutdownGUI();

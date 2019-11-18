@@ -457,6 +457,13 @@ void Application::ProcessKeyboard(void)
 			m_v3Bear.y -= 0.1f;
 	}
 
+	float fDelta = m_pSystem->GetDeltaTime(0);
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
+	{
+		m_pEntityMngr->ApplyForce(vector3(-2.0f * fDelta, 0.0f, 0.0f), "Bear");
+	}
+
+
 	//Orient the bear
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::X))
 	{
