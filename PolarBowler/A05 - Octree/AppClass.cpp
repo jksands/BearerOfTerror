@@ -91,11 +91,11 @@ void Application::Display(void)
 	// cubes for the rooms
 
 	// m_pMeshMngr->AddCubeToRenderList(IDENTITY_M4, glm::rgbColor(vector3(255, 0, 0))); // floor
-	m_pMeshMngr->AddPlaneToRenderList(glm::scale(glm::translate(IDENTITY_M4, vector3(0.0f, 0.0f, -35.0f)), vector3(90.0f, 25.0f, 0.0f)), vector3(255.0f, 0.0f, 0.0f));// back wall
-	m_pMeshMngr->AddPlaneToRenderList(glm::rotate(glm::scale(glm::translate(IDENTITY_M4,vector3(0.0f, 0.0f, 50.0f)), vector3(90.0f, 25.0f, 0.0f)), (float)(PI), AXIS_Y), vector3(255.0f, 0.0f, 0.0f));// front wall 
-	m_pMeshMngr->AddPlaneToRenderList(glm::scale(glm::translate(glm::rotate(IDENTITY_M4, (float)(PI/2.0f), AXIS_Y), vector3(-5.0f, 0.0f, -40.0f)), vector3(90.0f, 25.0f, 0.0f)), vector3(0.0f, 255.0f, 0.0f)); // left wall
-	m_pMeshMngr->AddPlaneToRenderList(glm::scale(glm::translate(glm::rotate(IDENTITY_M4, (float)(-PI / 2.0f), AXIS_Y), vector3(5.0f, 0.0f, -40.0f)), vector3(90.0f, 25.0f, 0.0f)), vector3(0.0f, 0.0f, 255.0f)); // right wall
-	m_pMeshMngr->AddPlaneToRenderList(glm::scale(glm::rotate(IDENTITY_M4, (float)(-PI / 2.0f), AXIS_X), vector3(90.0f, 100.0f, 0.0f)), vector3(0.0f, 0.0f, 0.0f)); // floor
+	m_pMeshMngr->AddPlaneToRenderList(glm::scale(glm::translate(IDENTITY_M4, vector3(0.0f, 0.0f, -100.0f)), vector3(200.0f, 25.0f, 0.0f)), vector3(255.0f, 0.0f, 0.0f));// back wall
+	m_pMeshMngr->AddPlaneToRenderList(glm::rotate(glm::scale(glm::translate(IDENTITY_M4,vector3(0.0f, 0.0f, 100.0f)), vector3(200.0f, 25.0f, 0.0f)), (float)(PI), AXIS_Y), vector3(255.0f, 0.0f, 0.0f));// front wall 
+	m_pMeshMngr->AddPlaneToRenderList(glm::scale(glm::translate(glm::rotate(IDENTITY_M4, (float)(PI/2.0f), AXIS_Y), vector3(0.0f, 0.0f, -100.0f)), vector3(200.0f, 25.0f, 0.0f)), vector3(0.0f, 255.0f, 0.0f)); // left wall
+	m_pMeshMngr->AddPlaneToRenderList(glm::scale(glm::translate(glm::rotate(IDENTITY_M4, (float)(-PI / 2.0f), AXIS_Y), vector3(0.0f, 0.0f, -100.0f)), vector3(200.0f, 25.0f, 0.0f)), vector3(0.0f, 0.0f, 255.0f)); // right wall
+	m_pMeshMngr->AddPlaneToRenderList(glm::scale(glm::rotate(IDENTITY_M4, (float)(-PI / 2.0f), AXIS_X), vector3(200.0f, 200.0f, 0.0f)), vector3(0.0f, 0.0f, 0.0f)); // floor
 	m_pRoot->Display();
 	
 	// draw a skybox
