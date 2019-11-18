@@ -36,11 +36,13 @@ void Application::InitVariables(void)
 		}
 	}
 	m_v3Bear = vector3(0.0f, 0.0f, 40.0f);
+
+
 	for (int i = 0; i < uSteves; i++)
 	{
 		m_uObjects++;
 		m_pEntityMngr->AddEntity("Minecraft\\Steve.obj");
-		vector2 temp = vector2(glm::linearRand(-100,100), glm::linearRand(-100, 100));
+		vector2 temp = vector2(glm::linearRand(-m_fHalfWidth, m_fHalfWidth), glm::linearRand(-m_fHalfWidth, m_fHalfWidth));
 		vector3 v3Position = vector3(temp.x, 0.0f, temp.y);
 		matrix4 m4Position = glm::translate(v3Position);
 		m_pEntityMngr->SetModelMatrix(m4Position);
@@ -91,11 +93,11 @@ void Application::Display(void)
 	// cubes for the rooms
 
 	// m_pMeshMngr->AddCubeToRenderList(IDENTITY_M4, glm::rgbColor(vector3(255, 0, 0))); // floor
-	m_pMeshMngr->AddPlaneToRenderList(glm::scale(glm::translate(IDENTITY_M4, vector3(0.0f, 0.0f, -100.0f)), vector3(200.0f, 25.0f, 0.0f)), vector3(255.0f, 0.0f, 0.0f));// back wall
-	m_pMeshMngr->AddPlaneToRenderList(glm::rotate(glm::scale(glm::translate(IDENTITY_M4,vector3(0.0f, 0.0f, 100.0f)), vector3(200.0f, 25.0f, 0.0f)), (float)(PI), AXIS_Y), vector3(255.0f, 0.0f, 0.0f));// front wall 
-	m_pMeshMngr->AddPlaneToRenderList(glm::scale(glm::translate(glm::rotate(IDENTITY_M4, (float)(PI/2.0f), AXIS_Y), vector3(0.0f, 0.0f, -100.0f)), vector3(200.0f, 25.0f, 0.0f)), vector3(0.0f, 255.0f, 0.0f)); // left wall
-	m_pMeshMngr->AddPlaneToRenderList(glm::scale(glm::translate(glm::rotate(IDENTITY_M4, (float)(-PI / 2.0f), AXIS_Y), vector3(0.0f, 0.0f, -100.0f)), vector3(200.0f, 25.0f, 0.0f)), vector3(0.0f, 0.0f, 255.0f)); // right wall
-	m_pMeshMngr->AddPlaneToRenderList(glm::scale(glm::rotate(IDENTITY_M4, (float)(-PI / 2.0f), AXIS_X), vector3(200.0f, 200.0f, 0.0f)), vector3(0.0f, 0.0f, 0.0f)); // floor
+	m_pMeshMngr->AddPlaneToRenderList(glm::scale(glm::translate(IDENTITY_M4, vector3(0.0f, 0.0f, -m_fHalfWidth)), vector3(2.0f * m_fHalfWidth, 25.0f, 0.0f)), vector3(255.0f, 0.0f, 0.0f));// back wall
+	m_pMeshMngr->AddPlaneToRenderList(glm::rotate(glm::scale(glm::translate(IDENTITY_M4,vector3(0.0f, 0.0f, m_fHalfWidth)), vector3(2.0f * m_fHalfWidth, 25.0f, 0.0f)), (float)(PI), AXIS_Y), vector3(255.0f, 0.0f, 0.0f));// front wall 
+	m_pMeshMngr->AddPlaneToRenderList(glm::scale(glm::translate(glm::rotate(IDENTITY_M4, (float)(PI/2.0f), AXIS_Y), vector3(0.0f, 0.0f, -m_fHalfWidth)), vector3(2.0f * m_fHalfWidth, 25.0f, 0.0f)), vector3(0.0f, 255.0f, 0.0f)); // left wall
+	m_pMeshMngr->AddPlaneToRenderList(glm::scale(glm::translate(glm::rotate(IDENTITY_M4, (float)(-PI / 2.0f), AXIS_Y), vector3(0.0f, 0.0f, -m_fHalfWidth)), vector3(2.0f * m_fHalfWidth, 25.0f, 0.0f)), vector3(0.0f, 0.0f, 255.0f)); // right wall
+	m_pMeshMngr->AddPlaneToRenderList(glm::scale(glm::rotate(IDENTITY_M4, (float)(-PI / 2.0f), AXIS_X), vector3(2.0f * m_fHalfWidth, 2.0f * m_fHalfWidth, 0.0f)), vector3(0.0f, 0.0f, 0.0f)); // floor
 	m_pRoot->Display();
 	
 	// draw a skybox

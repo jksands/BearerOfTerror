@@ -67,6 +67,9 @@ private:
 
 	MyOctant* m_pRoot;
 
+	float m_fHalfWidth = 100.0f;
+
+
 public:
 #pragma region Constructor / Run / Destructor
 	/*
