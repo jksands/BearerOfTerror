@@ -19,6 +19,14 @@ void Application::ProcessMousePressed(sf::Event a_event)
 	default: break;
 	case sf::Mouse::Button::Left:
 		gui.m_bMousePressed[0] = true;
+		if (pressed == false)
+		{
+			// It is now pressed so this won't run again until it is released
+			pressed = true;
+			// Save mouse position in vector2
+
+			GetCursorPos(&mouseOrigin);
+		}
 		break;
 	case sf::Mouse::Button::Middle:
 		gui.m_bMousePressed[1] = true;
@@ -39,7 +47,13 @@ void Application::ProcessMouseReleased(sf::Event a_event)
 	{
 	default: break;
 	case sf::Mouse::Button::Left:
-		gui.m_bMousePressed[0] = false;
+		GetCursorPos(&temp);
+		vec1 = vector2(mouseOrigin.x, mouseOrigin.y);
+		vec2 = vector2(temp.x, temp.y);
+		sum = vec1 - vec2;
+		glm::normalize(sum);
+		m_pEntityMngr->ApplyForce(vector3(sum.x, 0.0f, sum.y), "Bear");
+		pressed = false;
 		break;
 	case sf::Mouse::Button::Middle:
 		gui.m_bMousePressed[1] = false;

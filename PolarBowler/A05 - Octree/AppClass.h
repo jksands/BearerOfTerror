@@ -69,6 +69,15 @@ private:
 
 	float m_fHalfWidth = 100.0f;
 
+	bool pressed = false;
+	POINT mouseOrigin;
+
+	POINT temp;
+	vector2 vec1;
+	vector2 vec2;
+	vector2 sum;
+
+
 
 public:
 #pragma region Constructor / Run / Destructor
