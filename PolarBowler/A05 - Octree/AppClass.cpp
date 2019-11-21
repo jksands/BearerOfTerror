@@ -17,6 +17,7 @@ void Application::InitVariables(void)
 	//m_pBearRB = new MyRigidBody(m_pBear->GetVertexList());
 
 	m_pEntityMngr->AddEntity("PB\\TexturedBear.obj", "Bear");
+	m_pBearEntity = m_pEntityMngr->GetEntity(0);
 	
 	m_pEntityMngr->UsePhysicsSolver();
 
@@ -41,7 +42,12 @@ void Application::InitVariables(void)
 			m_pEntityMngr->SetModelMatrix(m4Position);
 		}
 	}*/
-	m_v3Bear = vector3(0.0f, 0.0f, 40.0f);
+	m_v3Bear = m_pBearEntity->GetPosition();
+	vector3 camera(m_v3Bear.x, m_v3Bear.y + 10, m_v3Bear.z - 15);
+	m_pCameraMngr->SetPositionTargetAndUpward(
+		camera,
+		m_v3Bear + vector3(0.0f, 5.0f, 0.0f),
+		AXIS_Y);
 
 
 	for (int i = 0; i < uSteves; i++)
@@ -67,6 +73,17 @@ void Application::Update(void)
 
 	//Is the first person camera active?
 	CameraRotation();
+	m_v3Bear = m_pBearEntity->GetPosition();
+	vector3 temp = m_pBearEntity->GetVelocity();
+	if (temp != vector3(0.0f))
+	{
+
+		vector3 camera(m_v3Bear.x, m_v3Bear.y + 10, m_v3Bear.z - 15);
+		m_pCameraMngr->SetPositionTargetAndUpward(
+			camera,
+			m_v3Bear + vector3(0.0f, 5.0f, 0.0f),
+			AXIS_Y);
+	}
 
 	//for each element in our collided box, reassign their id, and remove from the list if they are no longer moving
 	// std::vector<uint> toRemove;

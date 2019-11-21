@@ -21,6 +21,8 @@ class Application
 {
 	Model* m_pBear = nullptr;//the bear
 	MyRigidBody* m_pBearRB = nullptr;//bear's RigidBody
+	MyEntity* m_pBearEntity = nullptr;
+
 	vector3 m_v3Bear;//the bear's position
 	quaternion m_qBear;//the bear's rotation
 

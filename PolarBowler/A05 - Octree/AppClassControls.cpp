@@ -51,7 +51,7 @@ void Application::ProcessMouseReleased(sf::Event a_event)
 		vec1 = vector2(mouseOrigin.x, mouseOrigin.y);
 		vec2 = vector2(temp.x, temp.y);
 		sum = vec2 - vec1;
-		glm::normalize(sum);
+		sum /= 100;
 		m_pEntityMngr->ApplyForce(vector3(sum.x, 0.0f, sum.y), "Bear");
 		pressed = false;
 		break;
