@@ -27,7 +27,7 @@ void MyOctant::Init()
 	m_pRoot = nullptr;
 	m_pParent = nullptr;
 
-	for (uint i = 0; i < 8; i++)
+	for (uint i = 0; i < 4; i++)
 	{
 		m_pChild[i] = nullptr;
 	}
@@ -136,7 +136,7 @@ MyOctant::MyOctant(MyOctant const& other)
 	m_uID = other.m_uID;
 	m_uLevel = other.m_uLevel;
 
-	for (int i = 0; i < 8; i++)
+	for (int i = 0; i < 4; i++)
 	{
 		m_pChild[i] = other.m_pChild[i];
 	}
@@ -185,7 +185,7 @@ void MyOctant::Swap(MyOctant& other)
 	std::swap(m_uID, other.m_uID);//
 	std::swap(m_uLevel, other.m_uLevel);//
 
-	for (uint i = 0; i < 8; i++)
+	for (uint i = 0; i < 4; i++)
 	{
 		std::swap(m_pChild[i], other.m_pChild[i]);//
 	}
@@ -257,16 +257,6 @@ bool MyOctant::IsColliding(uint a_uRBIndex)
 		colliding = false;
 	}
 
-	//check y
-	if (m_v3Max.y < otherMin.y)
-	{
-		colliding = false;
-	}
-	if (m_v3Min.y > otherMax.y)
-	{
-		colliding = false;
-	}
-
 	//check z
 	if (m_v3Max.z < otherMin.z)
 	{
@@ -329,7 +319,7 @@ void MyOctant::ClearEntityList(void)
 	m_EntityList.clear();
 	if (!IsLeaf())
 	{
-		for (int i = 0; i < 8; i++)
+		for (int i = 0; i < 4; i++)
 		{
 			if (m_pChild[i] != NULL)
 			{
@@ -339,12 +329,12 @@ void MyOctant::ClearEntityList(void)
 	}
 }
 
-//allocates 8 smaller octants in the child pointers
+//allocates 4 smaller octants in the child pointers
 //altered to follow along more with the example code
 //original setup of the subdivide code drew vectors along eight diagonal lines
 //and travelled along them to find new centers with the altered sizes
 //broke because i needed to divide the size by 4 instead of just by 2 leading to the new centers being at
-//the 8 vertexes of the beginning cube
+//the 4 vertexes of the beginning cube
 void MyOctant::Subdivide(void)
 {
 	//break if at maximum level
@@ -358,7 +348,7 @@ void MyOctant::Subdivide(void)
 		return;
 	}
 	//declare children
-	m_uChildren = 8;
+	m_uChildren = 4;
 
 
 	float childHalfSize = m_fSize / 4.0f;
@@ -366,7 +356,7 @@ void MyOctant::Subdivide(void)
 
 	vector3 newCenter = vector3(m_v3Center.x - childHalfSize, m_v3Center.y - childHalfSize, m_v3Center.z - childHalfSize);
 
-	//create the eight children moving through the cube
+	//create the four children moving through the cube
 	m_pChild[0] = new MyOctant(newCenter, childSize);
 
 	newCenter.x += childSize;
@@ -378,19 +368,7 @@ void MyOctant::Subdivide(void)
 	newCenter.x -= childSize;
 	m_pChild[3] = new MyOctant(newCenter, childSize);
 
-	newCenter.y += childSize;
-	m_pChild[4] = new MyOctant(newCenter, childSize);
-
-	newCenter.z -= childSize;
-	m_pChild[5] = new MyOctant(newCenter, childSize);
-
-	newCenter.x += childSize;
-	m_pChild[6] = new MyOctant(newCenter, childSize);
-
-	newCenter.z += childSize;
-	m_pChild[7] = new MyOctant(newCenter, childSize);
-
-	for (uint i = 0; i < 8; i++)
+	for (uint i = 0; i < 4; i++)
 	{
 		m_pChild[i]->m_pParent = this;
 		m_pChild[i]->m_pRoot = m_pRoot;
@@ -405,7 +383,7 @@ void MyOctant::Subdivide(void)
 //returns the pointer to the specific child
 MyOctant* MyOctant::GetChild(uint a_nChild)
 {
-	if (a_nChild > 7 || a_nChild < 0)
+	if (a_nChild > 3 || a_nChild < 0)
 	{
 		return nullptr;
 	}
