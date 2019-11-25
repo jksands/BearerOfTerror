@@ -25,7 +25,8 @@ void Application::InitVariables(void)
 	uint uInstances = 1;
 	uint uSteves = 500;
 #else
-	uint uInstances = 1849;
+	uint uInstances = 1;
+	uint uSteves = 500;
 #endif
 	/*
 	int nSquare = static_cast<int>(std::sqrt(uInstances));
