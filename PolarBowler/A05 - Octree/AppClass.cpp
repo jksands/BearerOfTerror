@@ -58,30 +58,30 @@ void Application::InitVariables(void)
 	// add the planes as Entities with their obj file
 
 	// back wall
-	m_pEntityMngr->AddEntity("PB\\planeObj.obj");
-	vector3 v3Position = vector3(0.0f, 0.0f, 0.0f);
+	m_pEntityMngr->AddEntity("PB\\PlaneExport.obj");
 	matrix4 m4Position = glm::scale(glm::translate(vector3(0.0f, 0.0f, -m_fHalfWidth)), vector3(200.0f, 30.0f, 1.0f));
 	m_pEntityMngr->SetModelMatrix(m4Position);
 	m_pEntityMngr->UsePhysicsSolver();
 
 	// front wall
-	m_pEntityMngr->AddEntity("PB\\planeObj.obj");
-	vector3 v3Position = vector3(0.0f, 0.0f, 0.0f);
-	matrix4 m4Position = glm::scale(glm::translate(vector3(0.0f, 0.0f, m_fHalfWidth)), vector3(200.0f, 30.0f, 1.0f));
+	m_pEntityMngr->AddEntity("PB\\PlaneExport.obj");
+	m4Position = glm::scale(glm::translate(vector3(0.0f, 0.0f, m_fHalfWidth)), vector3(200.0f, 30.0f, 1.0f));
 	m_pEntityMngr->SetModelMatrix(m4Position);
 	m_pEntityMngr->UsePhysicsSolver();
 
 	// right wall
-	m_pEntityMngr->AddEntity("PB\\planeObj.obj");
-	vector3 v3Position = vector3(0.0f, 0.0f, 0.0f);
-	matrix4 m4Position = glm::scale(glm::translate(vector3(0.0f, 0.0f, -m_fHalfWidth)), vector3(200.0f, 30.0f, 1.0f)); // need a rotate
+	m_pEntityMngr->AddEntity("PB\\PlaneExport.obj");
+	m4Position = glm::rotate(glm::scale(glm::translate(vector3(m_fHalfWidth, 0.0f, 0.0f)), vector3(20000.0f, 30.0f, 1.0f)), (float)(PI / 2.0f), AXIS_Y); // need a rotate
+	// m4Position = glm::scale(glm::rotate(glm::translate(vector3(m_fHalfWidth, 0.0f, 0.0f)), (float)(PI / 2.0f), AXIS_Y), vector3(1.0f, 30.0f, 200.0f));
+	// m4Position = glm::scale(glm::translate(glm::rotate(IDENTITY_M4, (float)(PI / 2.0f), AXIS_Y), vector3(0.0f, 0.0f, m_fHalfWidth)), vector3(200.0f, 30.0f, 1.0f));
 	m_pEntityMngr->SetModelMatrix(m4Position);
 	m_pEntityMngr->UsePhysicsSolver();
-
+	
 	// left wall
-	m_pEntityMngr->AddEntity("PB\\planeObj.obj");
-	vector3 v3Position = vector3(0.0f, 0.0f, 0.0f);
-	matrix4 m4Position = glm::scale(glm::translate(vector3(0.0f, 0.0f, -m_fHalfWidth)), vector3(200.0f, 30.0f, 1.0f)); // need a rotate
+	m_pEntityMngr->AddEntity("PB\\PlaneExport.obj");
+	m4Position = glm::rotate(glm::scale(glm::translate(vector3(-m_fHalfWidth, 0.0f, 0.0f)), vector3(20000.0f, 30.0f, 1.0f)), (float)(PI / 2.0f), AXIS_Y); // need a rotate
+	// m4Position = glm::scale(glm::rotate(glm::translate(vector3(m_fHalfWidth, 0.0f, 0.0f)), (float)(PI / 2.0f), AXIS_Y), vector3(1.0f, 30.0f, 200.0f));
+	// m4Position = glm::scale(glm::translate(glm::rotate(IDENTITY_M4, (float)(PI / 2.0f), AXIS_Y), vector3(0.0f, 0.0f, m_fHalfWidth)), vector3(200.0f, 30.0f, 1.0f));
 	m_pEntityMngr->SetModelMatrix(m4Position);
 	m_pEntityMngr->UsePhysicsSolver();
 
@@ -175,10 +175,10 @@ void Application::Display(void)
 	// cubes for the rooms
 
 	// m_pMeshMngr->AddCubeToRenderList(IDENTITY_M4, glm::rgbColor(vector3(255, 0, 0))); // floor
-	m_pMeshMngr->AddPlaneToRenderList(glm::scale(glm::translate(IDENTITY_M4, vector3(0.0f, 0.0f, -m_fHalfWidth)), vector3(2.0f * m_fHalfWidth, 25.0f, 0.0f)), vector3(255.0f, 0.0f, 0.0f));// back wall
-	m_pMeshMngr->AddPlaneToRenderList(glm::rotate(glm::scale(glm::translate(IDENTITY_M4,vector3(0.0f, 0.0f, m_fHalfWidth)), vector3(2.0f * m_fHalfWidth, 25.0f, 0.0f)), (float)(PI), AXIS_Y), vector3(255.0f, 0.0f, 0.0f));// front wall 
-	m_pMeshMngr->AddPlaneToRenderList(glm::scale(glm::translate(glm::rotate(IDENTITY_M4, (float)(PI/2.0f), AXIS_Y), vector3(0.0f, 0.0f, -m_fHalfWidth)), vector3(2.0f * m_fHalfWidth, 25.0f, 0.0f)), vector3(0.0f, 255.0f, 0.0f)); // left wall
-	m_pMeshMngr->AddPlaneToRenderList(glm::scale(glm::translate(glm::rotate(IDENTITY_M4, (float)(-PI / 2.0f), AXIS_Y), vector3(0.0f, 0.0f, -m_fHalfWidth)), vector3(2.0f * m_fHalfWidth, 25.0f, 0.0f)), vector3(0.0f, 0.0f, 255.0f)); // right wall
+	// m_pMeshMngr->AddPlaneToRenderList(glm::scale(glm::translate(IDENTITY_M4, vector3(0.0f, 0.0f, -m_fHalfWidth)), vector3(2.0f * m_fHalfWidth, 25.0f, 0.0f)), vector3(255.0f, 0.0f, 0.0f));// back wall
+	// m_pMeshMngr->AddPlaneToRenderList(glm::rotate(glm::scale(glm::translate(IDENTITY_M4,vector3(0.0f, 0.0f, m_fHalfWidth)), vector3(2.0f * m_fHalfWidth, 25.0f, 0.0f)), (float)(PI), AXIS_Y), vector3(255.0f, 0.0f, 0.0f));// front wall 
+	// m_pMeshMngr->AddPlaneToRenderList(glm::scale(glm::translate(glm::rotate(IDENTITY_M4, (float)(PI/2.0f), AXIS_Y), vector3(0.0f, 0.0f, -m_fHalfWidth)), vector3(2.0f * m_fHalfWidth, 25.0f, 0.0f)), vector3(0.0f, 255.0f, 0.0f)); // left wall
+	// m_pMeshMngr->AddPlaneToRenderList(glm::scale(glm::translate(glm::rotate(IDENTITY_M4, (float)(-PI / 2.0f), AXIS_Y), vector3(0.0f, 0.0f, -m_fHalfWidth)), vector3(2.0f * m_fHalfWidth, 25.0f, 0.0f)), vector3(0.0f, 0.0f, 255.0f)); // right wall
 	m_pMeshMngr->AddPlaneToRenderList(glm::scale(glm::rotate(IDENTITY_M4, (float)(-PI / 2.0f), AXIS_X), vector3(2.0f * m_fHalfWidth, 2.0f * m_fHalfWidth, 0.0f)), vector3(255.0f)); // floor
 	m_pRoot->Display();
 
