@@ -145,6 +145,8 @@ void MySolver::ResolveCollision(MySolver* a_pOther)
 		ApplyForce(v3Direction / 4);
 		a_pOther->ApplyForce(-v3Direction);
 	}
+
+	Score::ChangeScore(50);
 }
 
 void MySolver::SetID(String temp)

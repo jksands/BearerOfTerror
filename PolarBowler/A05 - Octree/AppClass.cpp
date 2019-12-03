@@ -106,6 +106,20 @@ void Application::InitVariables(void)
 }
 void Application::Update(void)
 {
+	//checks if we have cleared the score from loading in, if not decreaeses counter, once counter below 0 clear
+	if (!firstFrameClear)
+	{
+		if (firstFrameClearFrames <= 0)
+		{
+			Score::ChangeScore(-1 * Score::GetScore());
+			firstFrameClear = true;
+		}
+		else
+		{
+			firstFrameClearFrames -= 1;
+		}
+	}
+
 	//Update the system so it knows how much time has passed since the last call
 	m_pSystem->Update();
 

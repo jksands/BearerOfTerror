@@ -13,6 +13,7 @@ Date: 2017/06
 #include "MyEntityManager.h"
 #include "MyOctant.h"
 #include "MySolver.h"
+#include "Score.h"
 
 namespace Simplex
 {
@@ -32,7 +33,7 @@ class Application
 	uint m_uOctantLevels = 0; //Number of levels in the octree
 	
 private:
-	String m_sProgrammer = "Alberto Bobadilla - labigm@rit.edu"; //programmer
+	String m_sProgrammer = "'     ' Studios"; //programmer
 
 	static ImGuiObject gui; //GUI object
 	bool m_bGUI_Main = true; //show Main GUI window?
@@ -82,6 +83,9 @@ private:
 	vector2 sum;
 
 	uint counter = 0;
+
+	int firstFrameClearFrames = 100;
+	bool firstFrameClear = false;
 
 
 
@@ -358,7 +362,7 @@ private:
 
 }//namespace Simplex
 
-#endif //__APPLICATIONCLASS_H_
+#endif __APPLICATIONCLASS_H_
 
 /*
 USAGE:

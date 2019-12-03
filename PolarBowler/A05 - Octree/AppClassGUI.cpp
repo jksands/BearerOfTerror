@@ -56,6 +56,9 @@ void Application::DrawGUI(void)
 			ImGui::Text("	  +: Decrement Octree subdivision\n");
 			ImGui::Separator();
 			ImGui::TextColored(ImColor(255, 255, 0), "Octree\n");
+			ImGui::Separator();
+			ImGui::TextColored(ImColor(255, 0, 255), "Player Score: ");
+			ImGui::Text(Score::GetScoreChar());
 		}
 		ImGui::End();
 	}
