@@ -63,32 +63,29 @@ void Application::InitVariables(void)
 	}
 
 	// add the planes as Entities with their obj file
+	matrix4 m4Position;
 
 	// back wall
-	m_pEntityMngr->AddEntity("PB\\PlaneExport.obj");
-	matrix4 m4Position = glm::scale(glm::translate(vector3(0.0f, 0.0f, -m_fHalfWidth)), vector3(200.0f, 30.0f, 10.0f));
+	m_pEntityMngr->AddEntity("PB\\whitePlane.obj");
+	m4Position = glm::translate(vector3(0.0f, 0.0f, -m_fHalfWidth));
 	m_pEntityMngr->SetModelMatrix(m4Position);
 	m_pEntityMngr->UsePhysicsSolver();
 
 	// front wall
-	m_pEntityMngr->AddEntity("PB\\PlaneExport.obj");
-	m4Position = glm::scale(glm::translate(vector3(0.0f, 0.0f, m_fHalfWidth)), vector3(200.0f, 30.0f, 10.0f));
+	m_pEntityMngr->AddEntity("PB\\whitePlane.obj");
+	m4Position = glm::translate(vector3(0.0f, 0.0f, m_fHalfWidth));
 	m_pEntityMngr->SetModelMatrix(m4Position);
 	m_pEntityMngr->UsePhysicsSolver();
 
 	// right wall
-	m_pEntityMngr->AddEntity("PB\\PlaneExport.obj");
-	m4Position = glm::rotate(glm::scale(glm::translate(vector3(m_fHalfWidth, 0.0f, 0.0f)), vector3(20000.0f, 30.0f, 10.0f)), (float)(PI / 2.0f), AXIS_Y); // need a rotate
-	// m4Position = glm::scale(glm::rotate(glm::translate(vector3(m_fHalfWidth, 0.0f, 0.0f)), (float)(PI / 2.0f), AXIS_Y), vector3(1.0f, 30.0f, 200.0f));
-	// m4Position = glm::scale(glm::translate(glm::rotate(IDENTITY_M4, (float)(PI / 2.0f), AXIS_Y), vector3(0.0f, 0.0f, m_fHalfWidth)), vector3(200.0f, 30.0f, 1.0f));
+	m_pEntityMngr->AddEntity("PB\\whitePlaneRotated.obj");
+	m4Position = glm::translate(vector3(-m_fHalfWidth, 0.0f, 0.0f));
 	m_pEntityMngr->SetModelMatrix(m4Position);
 	m_pEntityMngr->UsePhysicsSolver();
 	
 	// left wall
-	m_pEntityMngr->AddEntity("PB\\PlaneExport.obj");
-	m4Position = glm::rotate(glm::scale(glm::translate(vector3(-m_fHalfWidth, 0.0f, 0.0f)), vector3(20000.0f, 30.0f, 10.0f)), (float)(PI / 2.0f), AXIS_Y); // need a rotate
-	// m4Position = glm::scale(glm::rotate(glm::translate(vector3(m_fHalfWidth, 0.0f, 0.0f)), (float)(PI / 2.0f), AXIS_Y), vector3(1.0f, 30.0f, 200.0f));
-	// m4Position = glm::scale(glm::translate(glm::rotate(IDENTITY_M4, (float)(PI / 2.0f), AXIS_Y), vector3(0.0f, 0.0f, m_fHalfWidth)), vector3(200.0f, 30.0f, 1.0f));
+	m_pEntityMngr->AddEntity("PB\\whitePlaneRotated.obj");
+	m4Position = glm::translate(vector3(m_fHalfWidth, 0.0f, 0.0f));
 	m_pEntityMngr->SetModelMatrix(m4Position);
 	m_pEntityMngr->UsePhysicsSolver();
 
@@ -145,24 +142,18 @@ void Application::Update(void)
 	counter++;
 	for (uint i = 0; i < collided.size(); i++)
 	{
-		// if (collided[i]->GetVelocity() == vector3(0))
-		// {
-		// 	for (int j = i; j < collided.size()- 1; j++)
-		// 	{
-		// 		if (j == collided.size() - 2)
-		// 			continue;
-		// 		// collided[j] = collided[j + 1];
-		// 	}
-		// 	// i--;
-		// 	// collided.pop_back();
-		// 	// toRemove.push_back(i);
-		// }
-		if (collided.size() > 0)
+		if (collided[i]->GetVelocity() == vector3(0))
 		{
-			//m_pRoot->ReassignIDtoEntity(collided[i]->GetIDFromRigid());
+			// m_pEntityMngr->GetEntity(collided[i]->GetIDFromRigid())
+			MyEntity* temp = m_pEntityMngr->GetEntity(m_pEntityMngr->GetEntityIndex(collided[i]->GetIDFromRigid()));
+			temp->SetMoving(false);
+			// i--;
+			// collided.pop_back();
+			// toRemove.push_back(i);
 		}
 	}
-	m_pRoot->AssignIDtoEntity();
+	// m_pRoot->AssignIDtoEntity();
+	m_pRoot->ReassignIDtoEntity();
 	if (counter > 120)
 	{
 		collided.clear();

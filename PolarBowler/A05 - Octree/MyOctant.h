@@ -197,7 +197,7 @@ namespace Simplex
 		Arguments: entity id
 		output ---
 		*/
-		void ReassignIDtoEntity(String sID);
+		void ReassignIDtoEntity(void);
 		/*
 		USAGE: Gets the total number of octants in the world
 		ARGUMENTS: ---
