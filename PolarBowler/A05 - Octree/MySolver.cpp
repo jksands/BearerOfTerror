@@ -134,21 +134,30 @@ void MySolver::ResolveCollision(MySolver* a_pOther)
 {
 	float fMagThis = glm::length(m_v3Velocity);
 	float fMagOther = glm::length(m_v3Velocity);
-	
+	// if it's not already in the list
 	if (std::find(Application::collided.begin(), Application::collided.end(), this) != Application::collided.end())
 	{}
+	// Add it
 	else
 	{
 		Application::collided.push_back(this);
 	}
+	// Ditto
 	if (std::find(Application::collided.begin(), Application::collided.end(), a_pOther) != Application::collided.end())
 	{}
+	// Ditto
 	else
 	{
 		Application::collided.push_back(a_pOther);
 	}
 
-	if (fMagThis > 0.015f || fMagOther > 0.015f)
+	if ((fMagThis > 0.015f || fMagOther > 0.015f) && a_pOther->m_fMass > 10.0f)
+	{
+		//a_pOther->ApplyForce(GetVelocity());
+		ApplyForce(-m_v3Velocity * a_pOther->GetMass());
+		a_pOther->ApplyForce(m_v3Velocity);
+	}
+	else if (fMagThis > 0.015f || fMagOther > 0.015f)
 	{
 		//a_pOther->ApplyForce(GetVelocity());
 		ApplyForce(-m_v3Velocity / 4);
@@ -164,6 +173,8 @@ void MySolver::ResolveCollision(MySolver* a_pOther)
 		a_pOther->ApplyForce(-v3Direction);
 	}
 	a_pOther->rotating = true;
+
+	Score::ChangeScore(50);
 }
 
 void MySolver::SetID(String temp)

@@ -325,3 +325,13 @@ void Simplex::MyEntity::UsePhysicsSolver(bool a_bUse)
 {
 	m_bUsePhysicsSolver = a_bUse;
 }
+
+void Simplex::MyEntity::SetMoving(bool set)
+{
+	moving = set;
+}
+
+bool Simplex::MyEntity::GetMoving()
+{
+	return moving;
+}
