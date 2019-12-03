@@ -63,32 +63,29 @@ void Application::InitVariables(void)
 	}
 
 	// add the planes as Entities with their obj file
+	matrix4 m4Position;
 
 	// back wall
-	m_pEntityMngr->AddEntity("PB\\PlaneExport.obj");
-	matrix4 m4Position = glm::scale(glm::translate(vector3(0.0f, 0.0f, -m_fHalfWidth)), vector3(200.0f, 30.0f, 10.0f));
+	m_pEntityMngr->AddEntity("PB\\whitePlane.obj");
+	m4Position = glm::translate(vector3(0.0f, 0.0f, -m_fHalfWidth));
 	m_pEntityMngr->SetModelMatrix(m4Position);
 	m_pEntityMngr->UsePhysicsSolver();
 
 	// front wall
-	m_pEntityMngr->AddEntity("PB\\PlaneExport.obj");
-	m4Position = glm::scale(glm::translate(vector3(0.0f, 0.0f, m_fHalfWidth)), vector3(200.0f, 30.0f, 10.0f));
+	m_pEntityMngr->AddEntity("PB\\whitePlane.obj");
+	m4Position = glm::translate(vector3(0.0f, 0.0f, m_fHalfWidth));
 	m_pEntityMngr->SetModelMatrix(m4Position);
 	m_pEntityMngr->UsePhysicsSolver();
 
 	// right wall
-	m_pEntityMngr->AddEntity("PB\\PlaneExport.obj");
-	m4Position = glm::rotate(glm::scale(glm::translate(vector3(m_fHalfWidth, 0.0f, 0.0f)), vector3(20000.0f, 30.0f, 10.0f)), (float)(PI / 2.0f), AXIS_Y); // need a rotate
-	// m4Position = glm::scale(glm::rotate(glm::translate(vector3(m_fHalfWidth, 0.0f, 0.0f)), (float)(PI / 2.0f), AXIS_Y), vector3(1.0f, 30.0f, 200.0f));
-	// m4Position = glm::scale(glm::translate(glm::rotate(IDENTITY_M4, (float)(PI / 2.0f), AXIS_Y), vector3(0.0f, 0.0f, m_fHalfWidth)), vector3(200.0f, 30.0f, 1.0f));
+	m_pEntityMngr->AddEntity("PB\\whitePlaneRotated.obj");
+	m4Position = glm::translate(vector3(-m_fHalfWidth, 0.0f, 0.0f));
 	m_pEntityMngr->SetModelMatrix(m4Position);
 	m_pEntityMngr->UsePhysicsSolver();
 	
 	// left wall
-	m_pEntityMngr->AddEntity("PB\\PlaneExport.obj");
-	m4Position = glm::rotate(glm::scale(glm::translate(vector3(-m_fHalfWidth, 0.0f, 0.0f)), vector3(20000.0f, 30.0f, 10.0f)), (float)(PI / 2.0f), AXIS_Y); // need a rotate
-	// m4Position = glm::scale(glm::rotate(glm::translate(vector3(m_fHalfWidth, 0.0f, 0.0f)), (float)(PI / 2.0f), AXIS_Y), vector3(1.0f, 30.0f, 200.0f));
-	// m4Position = glm::scale(glm::translate(glm::rotate(IDENTITY_M4, (float)(PI / 2.0f), AXIS_Y), vector3(0.0f, 0.0f, m_fHalfWidth)), vector3(200.0f, 30.0f, 1.0f));
+	m_pEntityMngr->AddEntity("PB\\whitePlaneRotated.obj");
+	m4Position = glm::translate(vector3(m_fHalfWidth, 0.0f, 0.0f));
 	m_pEntityMngr->SetModelMatrix(m4Position);
 	m_pEntityMngr->UsePhysicsSolver();
 
