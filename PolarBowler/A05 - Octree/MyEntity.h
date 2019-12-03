@@ -31,6 +31,7 @@ namespace Simplex
 		bool m_bUsePhysicsSolver = false; //Indicates if we will use a physics solver 
 
 		MySolver* m_pSolver = nullptr; //Physics MySolver
+		bool moving = false;
 
 	public:
 		/*
@@ -267,6 +268,12 @@ namespace Simplex
 		OUTPUT: ---
 		*/
 		void UsePhysicsSolver(bool a_bUse = true);
+
+		// Sets whether the object is moving
+		void SetMoving(bool set = false);
+
+		//Gets the moving variable
+		bool GetMoving();
 
 	private:
 		/*

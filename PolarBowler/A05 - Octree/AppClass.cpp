@@ -131,24 +131,18 @@ void Application::Update(void)
 	counter++;
 	for (uint i = 0; i < collided.size(); i++)
 	{
-		// if (collided[i]->GetVelocity() == vector3(0))
-		// {
-		// 	for (int j = i; j < collided.size()- 1; j++)
-		// 	{
-		// 		if (j == collided.size() - 2)
-		// 			continue;
-		// 		// collided[j] = collided[j + 1];
-		// 	}
-		// 	// i--;
-		// 	// collided.pop_back();
-		// 	// toRemove.push_back(i);
-		// }
-		if (collided.size() > 0)
+		if (collided[i]->GetVelocity() == vector3(0))
 		{
-			//m_pRoot->ReassignIDtoEntity(collided[i]->GetIDFromRigid());
+			// m_pEntityMngr->GetEntity(collided[i]->GetIDFromRigid())
+			MyEntity* temp = m_pEntityMngr->GetEntity(m_pEntityMngr->GetEntityIndex(collided[i]->GetIDFromRigid()));
+			temp->SetMoving(false);
+			// i--;
+			// collided.pop_back();
+			// toRemove.push_back(i);
 		}
 	}
-	m_pRoot->AssignIDtoEntity();
+	// m_pRoot->AssignIDtoEntity();
+	m_pRoot->ReassignIDtoEntity();
 	if (counter > 120)
 	{
 		collided.clear();
