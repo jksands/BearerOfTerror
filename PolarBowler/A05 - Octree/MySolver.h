@@ -15,9 +15,12 @@ namespace Simplex
 	{
 		vector3 m_v3Acceleration = ZERO_V3; //Acceleration of the MySolver
 		vector3 m_v3Position = ZERO_V3; //Position of the MySolver
+		quaternion m_qRotation;//Rotation of the MySolver
 		vector3 m_v3Size = vector3(1.0f); //Size of the MySolver
 		vector3 m_v3Velocity = ZERO_V3; //Velocity of the MySolver
 		float m_fMass = 1.0f; //Mass of the solver
+		float m_fDegreesToRotate = 0.0f;
+		bool rotating = false;
 
 		String ID = "";
 		
@@ -65,6 +68,19 @@ namespace Simplex
 		OUTPUT: position of the solver
 		*/
 		vector3 GetPosition(void);
+
+		/*
+		USAGE: Sets the rotation of the solver
+		ARGUMENTS: quaternion a_qRotation -> position to set
+		OUTPUT: ---
+		*/
+		void SetRotation(quaternion a_qRotation);
+		/*
+		USAGE: Gets the rotation of the solver
+		ARGUMENTS: ---
+		OUTPUT: rotation of the solver
+		*/
+		quaternion GetRotation(void);
 
 		/*
 		USAGE: Sets the Size of the solver

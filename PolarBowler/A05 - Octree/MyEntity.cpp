@@ -311,7 +311,7 @@ void Simplex::MyEntity::Update(void)
 	if (m_bUsePhysicsSolver)
 	{
 		m_pSolver->Update();
-		SetModelMatrix(glm::translate(m_pSolver->GetPosition()) * glm::scale(m_pSolver->GetSize()));
+		SetModelMatrix(glm::translate(m_pSolver->GetPosition()) * glm::scale(m_pSolver->GetSize()) * ToMatrix4(m_pSolver->GetRotation()));
 	}
 }
 void Simplex::MyEntity::ResolveCollision(MyEntity* a_pOther)
