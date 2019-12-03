@@ -43,6 +43,9 @@ MySolver::~MySolver() { Release(); }
 //Accessors
 void MySolver::SetPosition(vector3 a_v3Position) { m_v3Position = a_v3Position; }
 vector3 MySolver::GetPosition(void) { return m_v3Position; }
+// ToMatrix4(glm::angleAxis(glm::radians(10.0f), vector3(AXIS_X)))
+void MySolver::SetRotation(quaternion a_qRotation) { m_qRotation = a_qRotation; }
+quaternion MySolver::GetRotation(void) { return m_qRotation; }
 
 void MySolver::SetSize(vector3 a_v3Size) { m_v3Size = a_v3Size; }
 vector3 MySolver::GetSize(void) { return m_v3Size; }
@@ -96,6 +99,21 @@ void MySolver::Update(void)
 
 	m_v3Velocity += m_v3Acceleration;
 
+	if (rotating)
+	{
+		m_fDegreesToRotate += 10.0f;
+		m_qRotation = ToMatrix4(glm::angleAxis(glm::radians(m_fDegreesToRotate), vector3(AXIS_X)));
+
+		if (m_fDegreesToRotate > 90.0f) rotating = false;
+	}
+	else
+	{
+		if(m_fDegreesToRotate > 0.0f)
+			m_fDegreesToRotate -= 10.0f;
+
+		m_qRotation = ToMatrix4(glm::angleAxis(glm::radians(m_fDegreesToRotate), vector3(AXIS_X)));
+	}
+
 	float fMaxVelocity = 10.0f;
 	m_v3Velocity = CalculateMaxVelocity(m_v3Velocity, fMaxVelocity);
 
@@ -145,6 +163,7 @@ void MySolver::ResolveCollision(MySolver* a_pOther)
 		ApplyForce(v3Direction / 4);
 		a_pOther->ApplyForce(-v3Direction);
 	}
+	a_pOther->rotating = true;
 }
 
 void MySolver::SetID(String temp)
