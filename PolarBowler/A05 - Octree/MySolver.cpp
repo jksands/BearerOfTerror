@@ -130,7 +130,13 @@ void MySolver::ResolveCollision(MySolver* a_pOther)
 		Application::collided.push_back(a_pOther);
 	}
 
-	if (fMagThis > 0.015f || fMagOther > 0.015f)
+	if ((fMagThis > 0.015f || fMagOther > 0.015f) && a_pOther->m_fMass > 10.0f)
+	{
+		//a_pOther->ApplyForce(GetVelocity());
+		ApplyForce(-m_v3Velocity * a_pOther->GetMass());
+		a_pOther->ApplyForce(m_v3Velocity);
+	}
+	else if (fMagThis > 0.015f || fMagOther > 0.015f)
 	{
 		//a_pOther->ApplyForce(GetVelocity());
 		ApplyForce(-m_v3Velocity / 4);

@@ -70,24 +70,28 @@ void Application::InitVariables(void)
 	m4Position = glm::translate(vector3(0.0f, 0.0f, -m_fHalfWidth));
 	m_pEntityMngr->SetModelMatrix(m4Position);
 	m_pEntityMngr->UsePhysicsSolver();
+	m_pEntityMngr->GetEntity(-1)->SetMass(100.0f);
 
 	// front wall
-	m_pEntityMngr->AddEntity("PB\\whitePlane.obj");
+	m_pEntityMngr->AddEntity("PB\\whitePlane.obj", "frontWall");
 	m4Position = glm::translate(vector3(0.0f, 0.0f, m_fHalfWidth));
 	m_pEntityMngr->SetModelMatrix(m4Position);
 	m_pEntityMngr->UsePhysicsSolver();
+	m_pEntityMngr->GetEntity(-1)->SetMass(100.0f);
 
 	// right wall
 	m_pEntityMngr->AddEntity("PB\\whitePlaneRotated.obj");
 	m4Position = glm::translate(vector3(-m_fHalfWidth, 0.0f, 0.0f));
 	m_pEntityMngr->SetModelMatrix(m4Position);
 	m_pEntityMngr->UsePhysicsSolver();
+	m_pEntityMngr->GetEntity(-1)->SetMass(100.0f);
 	
 	// left wall
 	m_pEntityMngr->AddEntity("PB\\whitePlaneRotated.obj");
 	m4Position = glm::translate(vector3(m_fHalfWidth, 0.0f, 0.0f));
 	m_pEntityMngr->SetModelMatrix(m4Position);
 	m_pEntityMngr->UsePhysicsSolver();
+	m_pEntityMngr->GetEntity(-1)->SetMass(100.0f);
 
 	// // floor
 	// m_pEntityMngr->AddEntity("PB\\planeObj.obj");
