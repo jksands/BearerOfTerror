@@ -172,6 +172,10 @@ void MySolver::ResolveCollision(MySolver* a_pOther)
 		ApplyForce(v3Direction / 4);
 		a_pOther->ApplyForce(-v3Direction);
 	}
+	if(a_pOther->ID != "backWall" &&
+		a_pOther->ID != "frontWall"&&
+		a_pOther->ID != "leftWall"&&
+		a_pOther->ID != "rightWall")
 	a_pOther->rotating = true;
 
 	Score::ChangeScore(50);
